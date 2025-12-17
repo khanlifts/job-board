@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import {Component, computed, signal} from '@angular/core';
 import { JobCard } from '../components/job-card/job-card'
 import {CompanyCard} from '../components/company-card/company-card';
 
@@ -10,6 +10,21 @@ import {CompanyCard} from '../components/company-card/company-card';
 })
 export class App {
   protected readonly appTitle = signal('Job Board');
+
+  searchTerm = signal<string>('');
+
+  onSearch(event: Event) {
+    this.searchTerm.set((event.target as HTMLInputElement).value);
+  }
+
+  filteredJobs = computed(() => {
+    const searchTerm = this.searchTerm().toLowerCase();
+    return this.jobs().filter(job => job.title.toLowerCase().includes(searchTerm));
+  })
+
+  foundJobsString = computed(() => {
+    return `${this.filteredJobs().length} Job${this.filteredJobs().length > 1 ? 's' : ''} found`
+  })
 
   jobs = signal([
     {title: 'Backend Dev', company: 'Amazon'},
