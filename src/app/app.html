@@ -3,14 +3,31 @@
 <h2>Search Jobs:</h2>
 <input type="text" (input)="onSearch($event)">
 
-@if (searchTerm().length > 0 && filteredJobs().length > 0) {
-  {{foundJobsString()}}
+@if(searchTerm().length > 0) {
+  Results for: "{{searchTerm()}}" {{foundJobsString()}}
+} @else if (searchTerm().length > 0 && filteredJobs().length === 0) {
+  No Jobs found
+} @else if (searchTerm().length === 0) {
+  All Jobs
+}
+
+<p>Your stats: </p>
+<p>{{statsFoundJobsString()}}</p>
+
+<p>Selected Industry:</p>
+@switch (selectedIndustry()) {
+  @case ('all') {
+    <p>All Jobs</p>
+  }
+  @case ('tech') {
+    <p>All Tech Jobs</p>
+  }
 }
 
 <h3>Jobs:</h3>
 
-@for (job of filteredJobs(); track $index) {
-  <job-card [title]="job.title" [company]="job.company"></job-card>
+@for (job of filteredJobs(); track job.title; let idx = $index) {
+  <job-card [id]="idx + 1" [title]="job.title" [company]="job.company"></job-card>
 }
 
 <h3>Companies:</h3>

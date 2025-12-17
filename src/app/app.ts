@@ -13,6 +13,12 @@ export class App {
 
   searchTerm = signal<string>('');
 
+  selectedIndustry = signal('all');
+
+  jobResultString = computed(() => {
+    return `${this.filteredJobs().length} Job${this.filteredJobs().length > 1 ? 's' : ''}`
+  })
+
   onSearch(event: Event) {
     this.searchTerm.set((event.target as HTMLInputElement).value);
   }
@@ -23,7 +29,11 @@ export class App {
   })
 
   foundJobsString = computed(() => {
-    return `${this.filteredJobs().length} Job${this.filteredJobs().length > 1 ? 's' : ''} found`
+    return this.jobResultString() + ' found';
+  })
+
+  statsFoundJobsString = computed(() => {
+    return this.jobResultString() + ' in your search';
   })
 
   jobs = signal([

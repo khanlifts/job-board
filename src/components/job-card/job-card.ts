@@ -14,4 +14,6 @@ export class JobCard {
 
   company = input<string>('Bogus Company')
 
+  id = input<number>()
+
 }
