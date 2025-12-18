@@ -1,0 +1,5 @@
+<h3 class="job-list">Jobs:</h3>
+
+@for (job of jobs(); track job.title; let idx = $index) {
+  <job-card [id]="idx + 1" [title]="job.title" [company]="job.company"></job-card>
+}

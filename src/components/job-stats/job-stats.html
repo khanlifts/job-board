@@ -1,0 +1,12 @@
+<p>Your stats: </p>
+<p>{{statsFoundJobString()}}</p>
+
+<p>Selected Industry:</p>
+@switch (selectedIndustry()) {
+  @case ('all') {
+    <p>All Jobs</p>
+  }
+  @case ('tech') {
+    <p>All Tech Jobs</p>
+  }
+}

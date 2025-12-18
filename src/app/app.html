@@ -1,8 +1,9 @@
 <h1>{{ appTitle() }}</h1>
 
-<h2>Search Jobs:</h2>
-<input type="text" (input)="onSearch($event)">
-
+<job-search-input
+  (searchChanged)="onSearch($event)"
+  placeholder="Search your dream job"
+></job-search-input>
 @if(searchTerm().length > 0) {
   Results for: "{{searchTerm()}}" {{foundJobsString()}}
 } @else if (searchTerm().length > 0 && filteredJobs().length === 0) {
@@ -11,24 +12,12 @@
   All Jobs
 }
 
-<p>Your stats: </p>
-<p>{{statsFoundJobsString()}}</p>
+<job-stats
+  [selectedIndustry]="selectedIndustry()"
+  [statsFoundJobString]="statsFoundJobsString()"
+></job-stats>
 
-<p>Selected Industry:</p>
-@switch (selectedIndustry()) {
-  @case ('all') {
-    <p>All Jobs</p>
-  }
-  @case ('tech') {
-    <p>All Tech Jobs</p>
-  }
-}
-
-<h3>Jobs:</h3>
-
-@for (job of filteredJobs(); track job.title; let idx = $index) {
-  <job-card [id]="idx + 1" [title]="job.title" [company]="job.company"></job-card>
-}
+<job-list [jobs]="filteredJobs()"></job-list>
 
 <h3>Companies:</h3>
 @for(company of companies(); track $index) {

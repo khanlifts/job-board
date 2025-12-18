@@ -1,10 +1,12 @@
 import {Component, computed, signal} from '@angular/core';
-import { JobCard } from '../components/job-card/job-card'
 import {CompanyCard} from '../components/company-card/company-card';
+import {JobList} from '../components/job-list/job-list';
+import {JobSearchInput} from '../components/job-search-input/job-search-input';
+import {JobStats} from '../components/job-stats/job-stats';
 
 @Component({
   selector: 'app-root',
-  imports: [JobCard, CompanyCard],
+  imports: [CompanyCard, JobList, JobSearchInput, JobStats],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -19,8 +21,8 @@ export class App {
     return `${this.filteredJobs().length} Job${this.filteredJobs().length > 1 ? 's' : ''}`
   })
 
-  onSearch(event: Event) {
-    this.searchTerm.set((event.target as HTMLInputElement).value);
+  onSearch(searchString: string) {
+    this.searchTerm.set(searchString);
   }
 
   filteredJobs = computed(() => {
