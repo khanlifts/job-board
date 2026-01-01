@@ -1,12 +1,13 @@
 import {Component, computed, signal} from '@angular/core';
-import {CompanyCard} from '../components/company-card/company-card';
-import {JobList} from '../components/job-list/job-list';
-import {JobSearchInput} from '../components/job-search-input/job-search-input';
-import {JobStats} from '../components/job-stats/job-stats';
+import {CompanyCard} from './components/company-card/company-card';
+import {JobList} from './components/job-list/job-list';
+import {JobSearchInput} from './components/job-search-input/job-search-input';
+import {JobStats} from './components/job-stats/job-stats';
+import {JobPostingForm} from './components/job-posting-form/job-posting-form';
 
 @Component({
   selector: 'app-root',
-  imports: [CompanyCard, JobList, JobSearchInput, JobStats],
+  imports: [CompanyCard, JobList, JobSearchInput, JobStats, JobPostingForm],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

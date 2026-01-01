@@ -1,0 +1,19 @@
+<h1 class="job-filter-form">Nach Branchen filtern</h1>
+
+<div class="job-filter-form__container">
+  @for (industry of industries; track $index) {
+    <div>
+      <label [for]="industry">
+        <input type="checkbox"
+           [name]="industry"
+           [id]="industry"
+           [checked]="selectedIndustries().has(industry)"
+           (change)="toggleIndustry(industry)"
+        >
+        {{ industry }}
+      </label>
+    </div>
+  }
+</div>
+
+

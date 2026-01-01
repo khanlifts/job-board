@@ -1,0 +1,28 @@
+<form class="job-posting-form" [formGroup]="jobPostingForm">
+  <input formControlName="title" type="text" placeholder="Job Title">
+  @if (hasError('title', 'required')) {
+    <span class="error">Title is required</span>
+  }
+  <input formControlName="company" type="text" placeholder="Company">
+  @if (hasError('company', 'required')) {
+    <span class="error">Company is required</span>
+  }
+  <select formControlName="industry">
+    <option [value]="null">Select Industry</option>
+    @for (industry of industries; track industry) {
+      <option [value]="industry">{{ industry }}</option>
+    }
+  </select>
+  @if (hasError('industry', 'required')) {
+    <span class="error">Industry is required</span>
+  }
+  <textarea formControlName="description" placeholder="Description"></textarea>
+  @if (hasError('description', 'minlength')) {
+    <span class="error">Min 10 Characters required</span>
+  }
+  <input formControlName="salary" type="number" placeholder="Salary">
+
+  <!-- Debug: Zeige den Form State -->
+  <pre>{{ jobPostingForm.value | json }}</pre>
+  <pre>Status of Form: {{ jobPostingForm.status }}</pre>
+</form>
