@@ -1,4 +1,4 @@
-<form class="job-posting-form" [formGroup]="jobPostingForm">
+<form class="job-posting-form" [formGroup]="jobPostingForm" (ngSubmit)="onSubmit()">
   <input formControlName="title" type="text" placeholder="Job Title">
   @if (hasError('title', 'required')) {
     <span class="error">Title is required</span>
@@ -22,7 +22,8 @@
   }
   <input formControlName="salary" type="number" placeholder="Salary">
 
-  <!-- Debug: Zeige den Form State -->
+  <button type="submit" [disabled]="jobPostingForm.invalid">Post Job</button>
+
   <pre>{{ jobPostingForm.value | json }}</pre>
   <pre>Status of Form: {{ jobPostingForm.status }}</pre>
 </form>

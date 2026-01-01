@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, output} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
 import {Industry} from '../../../utils/ts-utils';
@@ -13,6 +13,14 @@ import {Industry} from '../../../utils/ts-utils';
 export class JobPostingForm {
   industries = Object.values(Industry);
 
+  jobSubmitted = output<{
+    title: string;
+    company: string;
+    industry: Industry;
+    description: string;
+    salary: number | null;
+  }>();
+
   jobPostingForm = new FormGroup({
     title: new FormControl<string>('', { validators: Validators.required, nonNullable: true }),
     company: new FormControl<string>('', { validators: Validators.required, nonNullable: true }),
@@ -20,6 +28,21 @@ export class JobPostingForm {
     description: new FormControl<string>('', { validators: Validators.minLength(10), nonNullable: true }),
     salary: new FormControl<number | null>(null)
   })
+
+  onSubmit() {
+    if (this.jobPostingForm.valid) {
+      const formValue = this.jobPostingForm.getRawValue();
+      this.jobSubmitted.emit({
+        title: formValue.title,
+        company: formValue.company,
+        industry: formValue.industry as Industry,
+        description: formValue.description,
+        salary: formValue.salary
+      })
+
+      this.jobPostingForm.reset();
+    }
+  }
 
   hasError(fieldName: string, errorType: string): boolean {
     const control = this.jobPostingForm.get(fieldName);
