@@ -1,7 +1,7 @@
 import {Component, output} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
-import {Industry} from '../../../utils/ts-utils';
+import {Industry, Job} from '../../../utils/ts-utils';
 
 @Component({
   selector: 'app-job-posting-form',
@@ -13,13 +13,7 @@ import {Industry} from '../../../utils/ts-utils';
 export class JobPostingForm {
   industries = Object.values(Industry);
 
-  jobSubmitted = output<{
-    title: string;
-    company: string;
-    industry: Industry;
-    description: string;
-    salary: number | null;
-  }>();
+  jobSubmitted = output<Job>();
 
   jobPostingForm = new FormGroup({
     title: new FormControl<string>('', { validators: Validators.required, nonNullable: true }),
