@@ -6,6 +6,12 @@ export interface Job {
   salary: number | null;
 }
 
+export interface Company {
+  companyName: string;
+  industry: string;
+  employeeCount: number;
+}
+
 export enum Industry {
   Finance = 'FINANCE',
   Technology = 'TECHNOLOGY',

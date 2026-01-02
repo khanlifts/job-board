@@ -22,7 +22,7 @@
 <job-list [jobs]="filteredJobs()"></job-list>
 
 <h3>Companies:</h3>
-@for(company of companies(); track $index) {
+@for(company of companiesSignal(); track $index) {
   <company-card
     [companyName]="company.companyName"
     [industry]="company.industry"
