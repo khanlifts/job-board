@@ -20,9 +20,8 @@ export class App implements OnInit {
   protected readonly appTitle = signal('Job Board');
 
   ngOnInit() {
-    // Später werden wir hier aufrufen:
-    // this.jobService.loadJobs();
-    // this.companyService.loadCompanies();
+    this.jobService.loadJobs();
+    this.companyService.loadCompanies();
   }
 
   searchTerm = signal<string>('');

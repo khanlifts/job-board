@@ -1,6 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {Industry, Job} from '../../utils/ts-utils';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {finalize} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,18 @@ export class JobService {
   private http = inject(HttpClient);
 
   loadJobs() {
-    // Todo: HTTP GET implementieren
+   this.loadingSignal.set(true);
+   this.errorSignal.set(null);
+
+   this.http.get<Job[]>('http://localhost:3000/jobs')
+     .pipe(finalize(() => {
+       this.loadingSignal.set(false);
+     }))
+     .subscribe({
+     next: (jobs: Job[]) => this.jobsSignal.set(jobs),
+     error: (err: HttpErrorResponse) => this.errorSignal
+       .set(`Error fetching jobs. Status: ${err.status} Error: ${err.message}`)
+   })
   }
 
   deleteJob(id: number) {

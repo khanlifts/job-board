@@ -19,13 +19,46 @@
   [statsFoundJobString]="statsFoundJobsString()"
 ></job-stats>
 
-<job-list [jobs]="filteredJobs()"></job-list>
+
+@if (jobService.loading()) {
+  <p>Loading Jobs</p>
+}
+
+@if (jobService.error()) {
+  <p>Error loading jobs: {{ jobService.error() }}</p>
+}
+
+@if (!jobService.loading() && jobService.jobs().length > 0) {
+  <job-list [jobs]="filteredJobs()"></job-list>
+}
+
+@if (!jobService.loading() && jobService.jobs().length === 0) {
+  <p>No Jobs available</p>
+}
+
 
 <h3>Companies:</h3>
-@for(company of companiesSignal(); track $index) {
-  <company-card
-    [companyName]="company.companyName"
-    [industry]="company.industry"
-    [employeeCount]="company.employeeCount"
-  ></company-card>
+
+@if (companyService.loading()) {
+  <p>Loading Companies...</p>
+}
+
+@if (companyService.error()) {
+  <p>Error Loading Companies: {{ companyService.error() }}</p>
+}
+
+@if (!companyService.loading() && companyService.companies().length > 0) {
+
+  @for(company of companiesSignal(); track $index) {
+    <company-card
+      [companyName]="company.companyName"
+      [industry]="company.industry"
+      [employeeCount]="company.employeeCount"
+    ></company-card>
+  }
+
+}
+
+@if (!companyService.loading() && companyService.companies().length === 0) {
+  <p>No Companies available</p>
 }
