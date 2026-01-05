@@ -1,4 +1,4 @@
-import {Component, computed, inject, signal} from '@angular/core';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {CompanyCard} from './components/company-card/company-card';
 import {JobList} from './components/job-list/job-list';
 import {JobSearchInput} from './components/job-search-input/job-search-input';
@@ -14,10 +14,16 @@ import {CompanyService} from './services/company.service';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
+export class App implements OnInit {
   jobService: JobService = inject(JobService);
   companyService: CompanyService = inject(CompanyService);
   protected readonly appTitle = signal('Job Board');
+
+  ngOnInit() {
+    // Später werden wir hier aufrufen:
+    // this.jobService.loadJobs();
+    // this.companyService.loadCompanies();
+  }
 
   searchTerm = signal<string>('');
 
@@ -48,5 +54,5 @@ export class App {
     return this.jobResultString() + ' in your search';
   })
 
-  companiesSignal = this.companyService.getCompaniesSignal();
+  companiesSignal = this.companyService.companies;
 }

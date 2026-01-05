@@ -10,6 +10,7 @@ export class CompanyService {
   }
 
   private companiesSignal = signal<Company[]>([]);
+  readonly companies = this.companiesSignal.asReadonly()
 
   private defaultCompanies(): Company[] {
     return [
@@ -17,9 +18,5 @@ export class CompanyService {
       {companyName: 'FinFox', industry: 'Finance', employeeCount: 999},
       {companyName: 'Apple', industry: 'Consumer Electronics', employeeCount: 4876}
     ]
-  }
-
-  getCompaniesSignal() {
-    return this.companiesSignal.asReadonly();
   }
 }

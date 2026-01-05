@@ -1,5 +1,6 @@
-import {Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {Industry, Job} from '../../utils/ts-utils';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,23 @@ export class JobService {
   }
 
   private jobsSignal = signal<Job[]>([])
-  private jobs = this.jobsSignal.asReadonly();
+  readonly jobs = this.jobsSignal.asReadonly();
+
+  private loadingSignal = signal<boolean>(false);
+  private errorSignal = signal<null | string>(null);
+
+  readonly loading = this.loadingSignal.asReadonly();
+  readonly error = this.errorSignal.asReadonly();
+
+  private http = inject(HttpClient);
+
+  loadJobs() {
+    // Todo: HTTP GET implementieren
+  }
+
+  deleteJob(id: number) {
+    // Todo: HTTP DELETE implementieren
+  }
 
   private defaultJobs(): Job[] {
     return [
