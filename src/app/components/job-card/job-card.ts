@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, input, output} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,6 +14,10 @@ export class JobCard {
 
   company = input<string>('Bogus Company')
 
-  id = input<number>()
+  deleteJob = output<void>();
+
+  onDeleteJob() {
+    this.deleteJob.emit();
+  }
 
 }

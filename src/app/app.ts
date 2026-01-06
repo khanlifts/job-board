@@ -38,7 +38,11 @@ export class App implements OnInit {
   }
 
   onJobSubmitted(job: Job) {
-    this.jobService.addJob(job);
+    this.jobService.addJobToServer(job);
+  }
+
+  onJobDeleted(id: string) {
+    this.jobService.deleteJob(id);
   }
 
   filteredJobs = computed(() => {

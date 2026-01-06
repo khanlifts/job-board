@@ -14,6 +14,10 @@
 
 <app-job-posting-form (jobSubmitted)="onJobSubmitted($event)"></app-job-posting-form>
 
+@if (jobService.creatingJobs()) {
+  <p>Creating Job...</p>
+}
+
 <job-stats
   [selectedIndustry]="selectedIndustry()"
   [statsFoundJobString]="statsFoundJobsString()"
@@ -29,7 +33,7 @@
 }
 
 @if (!jobService.loading() && jobService.jobs().length > 0) {
-  <job-list [jobs]="filteredJobs()"></job-list>
+  <job-list [jobs]="filteredJobs()" (deleteJob)="onJobDeleted($event)"></job-list>
 }
 
 @if (!jobService.loading() && jobService.jobs().length === 0) {

@@ -27,6 +27,7 @@ export class JobPostingForm {
     if (this.jobPostingForm.valid) {
       const formValue = this.jobPostingForm.getRawValue();
       this.jobSubmitted.emit({
+        id: crypto.randomUUID(),
         title: formValue.title,
         company: formValue.company,
         industry: formValue.industry as Industry,

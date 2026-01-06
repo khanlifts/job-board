@@ -14,6 +14,9 @@ export class JobService {
   private jobsSignal = signal<Job[]>([])
   readonly jobs = this.jobsSignal.asReadonly();
 
+  private creatingJobSignal = signal<boolean>(false);
+  readonly creatingJobs = this.creatingJobSignal.asReadonly();
+
   private loadingSignal = signal<boolean>(false);
   private errorSignal = signal<null | string>(null);
 
@@ -31,19 +34,46 @@ export class JobService {
        this.loadingSignal.set(false);
      }))
      .subscribe({
-     next: (jobs: Job[]) => this.jobsSignal.set(jobs),
+     next: (jobs: Job[]) =>  this.jobsSignal.set(jobs),
      error: (err: HttpErrorResponse) => this.errorSignal
        .set(`Error fetching jobs. Status: ${err.status} Error: ${err.message}`)
    })
   }
 
-  deleteJob(id: number) {
-    // Todo: HTTP DELETE implementieren
+  addJobToServer(job: Job) {
+    this.creatingJobSignal.set(true);
+    this.errorSignal.set(null);
+
+    this.http.post<Job>('http://localhost:3000/jobs', job)
+      .pipe(
+        finalize(() => this.creatingJobSignal.set(false))
+      )
+      .subscribe({
+        next: (newJob: Job) => this.addJob(newJob),
+        error: (error: HttpErrorResponse) => {
+          this.errorSignal.set(`Error posting job. Status: ${error.status} Error: ${error.message}`)
+        }
+      })
+  }
+
+  deleteJob(id: string) {
+    this.errorSignal.set(null);
+
+    this.http.delete<void>(`http://localhost:3000/jobs/${id}`)
+      .subscribe({
+        next: () => {
+          this.removeJob(id);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.errorSignal.set(`Error deleting job. Status: ${error.status} Error: ${error.message}`)
+        }
+      })
   }
 
   private defaultJobs(): Job[] {
     return [
       {
+        id: crypto.randomUUID(),
         title: 'Senior Angular Developer',
         company: 'Google',
         industry: Industry.Technology,
@@ -51,6 +81,7 @@ export class JobService {
         salary: 150000
       },
       {
+        id: crypto.randomUUID(),
         title: 'Backend Engineer',
         company: 'Microsoft',
         industry: Industry.Technology,
@@ -58,6 +89,7 @@ export class JobService {
         salary: 140000
       },
       {
+        id: crypto.randomUUID(),
         title: 'Healthcare IT Specialist',
         company: 'CVS Health',
         industry: Industry.Medicine,
@@ -65,6 +97,7 @@ export class JobService {
         salary: 90000
       },
       {
+        id: crypto.randomUUID(),
         title: 'HR Manager',
         company: 'Adobe',
         industry: Industry.HR,
@@ -72,6 +105,7 @@ export class JobService {
         salary: 120000
       },
       {
+        id: crypto.randomUUID(),
         title: 'Financial Analyst',
         company: 'Goldman Sachs',
         industry: Industry.Finance,
@@ -83,7 +117,13 @@ export class JobService {
 
   addJob(job: Job) {
     this.jobsSignal.update(currentJobs => {
-      return [job, ...currentJobs]
+      return [...currentJobs, job]
+    })
+  }
+
+  removeJob(deletedJobId: string) {
+    this.jobsSignal.update(currentJobs => {
+      return currentJobs.filter(job => job.id !== deletedJobId);
     })
   }
 

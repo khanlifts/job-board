@@ -1,4 +1,4 @@
-import {Component, input, InputSignal} from '@angular/core';
+import {Component, input, InputSignal, output} from '@angular/core';
 import {JobCard} from '../job-card/job-card';
 import {Job} from '../../../utils/ts-utils';
 
@@ -14,4 +14,9 @@ import {Job} from '../../../utils/ts-utils';
 export class JobList {
 
   jobs: InputSignal<Job[]> = input.required();
+  deleteJob = output<string>()
+
+  onJobDeleted(id: string) {
+    this.deleteJob.emit(id);
+  }
 }
