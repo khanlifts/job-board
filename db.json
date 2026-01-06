@@ -1,35 +1,27 @@
 {
   "jobs": [
     {
-      "id": "2",
-      "title": "Backend Engineer",
-      "company": "Microsoft",
+      "id": "456f3934-a9d8-4417-9d5e-ffe035f94281",
+      "title": "Senior DB Developer",
+      "company": "Oracle",
       "industry": "TECHNOLOGY",
-      "description": "Build scalable backend systems with Node.js and TypeScript",
-      "salary": 140000
+      "description": "Developing at Oracle",
+      "salary": 300000
     },
     {
-      "id": "3",
-      "title": "Healthcare IT Specialist",
-      "company": "CVS Health",
-      "industry": "MEDICINE",
-      "description": "Support and maintain critical healthcare information systems",
-      "salary": 90000
-    },
-    {
-      "id": "4",
-      "title": "HR Manager",
-      "company": "Adobe",
-      "industry": "HR",
-      "description": "Lead HR initiatives and build high-performing teams",
+      "id": "220af06b-267b-49b7-a5d5-4610f5f09150",
+      "title": "Junior DB Engineer",
+      "company": "AWS",
+      "industry": "FINANCE",
+      "description": "Entry level db dev position",
       "salary": 120000
     },
     {
-      "id": "5",
-      "title": "Financial Analyst",
-      "company": "Goldman Sachs",
-      "industry": "FINANCE",
-      "description": "Analyze financial data and provide strategic insights",
+      "id": "fd9873e8-279a-473f-8263-bd051294038b",
+      "title": "Senior Angular Developer",
+      "company": "V-Zug",
+      "industry": "MEDICINE",
+      "description": "Greenfield Frontend Dev on V-Zug",
       "salary": 130000
     }
   ],

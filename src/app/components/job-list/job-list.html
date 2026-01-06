@@ -4,6 +4,7 @@
   <job-card
     [title]="job.title"
     [company]="job.company"
+    [isDeleting]="isDeleting()"
     (deleteJob)="onJobDeleted(job.id)"
   >
   </job-card>

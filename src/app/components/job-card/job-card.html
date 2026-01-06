@@ -1,5 +1,7 @@
 <div class="job-card">
   <h3>{{ title() }}</h3>
   <p class="company">{{ company() }}</p>
-  <button (click)="onDeleteJob()">Delete Job</button>
+  <button (click)="onDeleteJob()" [disabled]="isDeleting()">
+    {{isDeleting() ? 'Deleting Job...' : 'Delete Job' }}
+  </button>
 </div>

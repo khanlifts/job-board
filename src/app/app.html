@@ -4,12 +4,43 @@
   (searchChanged)="onSearch($event)"
   placeholder="Search your dream job"
 ></job-search-input>
-@if(searchTerm().length > 0) {
-  Results for: "{{searchTerm()}}" {{foundJobsString()}}
-} @else if (searchTerm().length > 0 && filteredJobs().length === 0) {
-  No Jobs found
-} @else if (searchTerm().length === 0) {
+
+@if (searchTerm().length > 0) {
+  Results for: "{{searchTerm()}}"
+  @let searchResults = jobService.$searchResult | async;
+  @if (searchResults) {
+    @if (searchResults.length > 0) {
+      <job-list
+        [jobs]="searchResults"
+        [isDeleting]="jobService.deleting()"
+        (deleteJob)="onJobDeleted($event)"
+      ></job-list>
+    } @else {
+      <p>No Jobs found for "{{ searchTerm() }}"</p>
+    }
+  }
+} @else {
   All Jobs
+
+  @if (jobService.loading()) {
+    <p>Loading Jobs...</p>
+  }
+
+  @if (jobService.error()) {
+    <p>Error loading jobs: {{ jobService.error() }}</p>
+  }
+
+  @if (!jobService.loading() && jobService.jobs().length > 0) {
+    <job-list
+      [jobs]="jobService.jobs()"
+      [isDeleting]="jobService.deleting()"
+      (deleteJob)="onJobDeleted($event)"
+    ></job-list>
+  }
+
+  @if (!jobService.loading() && jobService.jobs().length === 0) {
+    <p>No Jobs available</p>
+  }
 }
 
 <app-job-posting-form (jobSubmitted)="onJobSubmitted($event)"></app-job-posting-form>
@@ -23,23 +54,9 @@
   [statsFoundJobString]="statsFoundJobsString()"
 ></job-stats>
 
-
-@if (jobService.loading()) {
-  <p>Loading Jobs</p>
+@if (jobService.deleting()) {
+  <p>Deleting Jobs...</p>
 }
-
-@if (jobService.error()) {
-  <p>Error loading jobs: {{ jobService.error() }}</p>
-}
-
-@if (!jobService.loading() && jobService.jobs().length > 0) {
-  <job-list [jobs]="filteredJobs()" (deleteJob)="onJobDeleted($event)"></job-list>
-}
-
-@if (!jobService.loading() && jobService.jobs().length === 0) {
-  <p>No Jobs available</p>
-}
-
 
 <h3>Companies:</h3>
 
@@ -52,7 +69,6 @@
 }
 
 @if (!companyService.loading() && companyService.companies().length > 0) {
-
   @for(company of companiesSignal(); track $index) {
     <company-card
       [companyName]="company.companyName"
@@ -60,7 +76,6 @@
       [employeeCount]="company.employeeCount"
     ></company-card>
   }
-
 }
 
 @if (!companyService.loading() && companyService.companies().length === 0) {

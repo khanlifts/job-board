@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
 export class JobCard {
 
   title = input<string>('Pharmacist');
-
   company = input<string>('Bogus Company')
+  isDeleting = input<boolean>(false);
 
   deleteJob = output<void>();
 

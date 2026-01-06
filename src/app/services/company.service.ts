@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {Company} from '../../utils/ts-utils';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {finalize} from 'rxjs';
+import {catchError, finalize, of, tap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +26,15 @@ export class CompanyService {
     this.errorSignal.set(null);
 
     this.http.get<Company[]>('http://localhost:3000/companies')
-      .pipe(finalize(() => {
-        this.loadingSignal.set(false);
-      }))
-      .subscribe({
-      next: (companies: Company[]) => this.companiesSignal.set(companies),
-      error: (err: HttpErrorResponse) => this.errorSignal
-        .set(`Error fetching companies. Status: ${err.status} Error: ${err.message}`)
-    })
+      .pipe(
+        tap((companies: Company[]) => this.companiesSignal.set(companies)),
+        catchError((err: HttpErrorResponse) => {
+          this.errorSignal.set(`Error fetching companies. Status: ${err.status} Error: ${err.message}`);
+          return of([]);
+        }),
+        finalize(() => this.loadingSignal.set(false))
+      )
+      .subscribe();
   }
 
   private defaultCompanies(): Company[] {

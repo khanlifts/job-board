@@ -7,10 +7,11 @@ import {JobPostingForm} from './components/job-posting-form/job-posting-form';
 import {Job} from '../utils/ts-utils';
 import {JobService} from './services/job.service';
 import {CompanyService} from './services/company.service';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [CompanyCard, JobList, JobSearchInput, JobStats, JobPostingForm],
+  imports: [CompanyCard, JobList, JobSearchInput, JobStats, JobPostingForm, AsyncPipe],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -35,6 +36,7 @@ export class App implements OnInit {
 
   onSearch(searchString: string) {
     this.searchTerm.set(searchString);
+    this.jobService.searchJobs(searchString);
   }
 
   onJobSubmitted(job: Job) {

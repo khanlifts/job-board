@@ -14,6 +14,7 @@ import {Job} from '../../../utils/ts-utils';
 export class JobList {
 
   jobs: InputSignal<Job[]> = input.required();
+  isDeleting: InputSignal<boolean> = input(false);
   deleteJob = output<string>()
 
   onJobDeleted(id: string) {
