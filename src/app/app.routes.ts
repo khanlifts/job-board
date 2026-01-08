@@ -7,9 +7,9 @@ import { NotFoundComponent } from './components/not-found/not-found';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/jobs', pathMatch: 'full' },
-  { path: 'jobs', component: App },
   { path: 'jobs/create', component: JobCreateComponent },
   { path: 'jobs/:id', component: JobDetailComponent },
+  { path: 'jobs', component: App },
   { path: 'companies', component: CompaniesPageComponent },
   { path: '**', component: NotFoundComponent }
 ];

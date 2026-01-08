@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'job-create',
   templateUrl: './job-create.html',
-  styleUrl: '/job-create.scss'
+  styleUrl: './job-create.scss'
 })
 export class JobCreateComponent {
 

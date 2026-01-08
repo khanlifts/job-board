@@ -2,8 +2,11 @@
 
 @for (job of jobs(); track job.id) {
   <job-card
-    [title]="job.title"
+    [jobId]="job.id"
+    [jobTitle]="job.title"
     [company]="job.company"
+    [industry]="job.industry"
+    [salary]="job.salary"
     [isDeleting]="isDeleting()"
     (deleteJob)="onJobDeleted(job.id)"
   >

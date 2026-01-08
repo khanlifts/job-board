@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   standalone: true,
   selector: 'companies-page',
   templateUrl: './companies-page.html',
-  styleUrl: '/companies-page.scss'
+  styleUrl: './companies-page.scss'
 })
 export class CompaniesPageComponent {
 

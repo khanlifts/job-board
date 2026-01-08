@@ -1,6 +1,9 @@
 <div class="job-card">
-  <h3>{{ title() }}</h3>
-  <p class="company">{{ company() }}</p>
+  <a [routerLink]="['/jobs/' + jobId()]">
+    <h3>{{ jobTitle() }}</h3>
+    <strong><p class="company">{{ company() }}</p></strong>
+    <p>{{ industry() }} • {{ salary() }}</p>
+  </a>
   <button (click)="onDeleteJob()" [disabled]="isDeleting()">
     {{ isDeleting() ? 'Deleting Job...' : 'Delete Job' }}
   </button>
