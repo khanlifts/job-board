@@ -10,7 +10,7 @@ describe('JobPostingForm', () => {
     await TestBed.configureTestingModule({
       imports: [JobPostingForm]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(JobPostingForm);
     component = fixture.componentInstance;

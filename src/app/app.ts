@@ -1,17 +1,18 @@
-import {Component, computed, inject, OnInit, signal} from '@angular/core';
-import {CompanyCard} from './components/company-card/company-card';
-import {JobList} from './components/job-list/job-list';
-import {JobSearchInput} from './components/job-search-input/job-search-input';
-import {JobStats} from './components/job-stats/job-stats';
-import {JobPostingForm} from './components/job-posting-form/job-posting-form';
-import {Job} from '../utils/ts-utils';
-import {JobService} from './services/job.service';
-import {CompanyService} from './services/company.service';
-import {AsyncPipe} from '@angular/common';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { CompanyCard } from './components/company-card/company-card';
+import { JobList } from './components/job-list/job-list';
+import { JobSearchInput } from './components/job-search-input/job-search-input';
+import { JobStats } from './components/job-stats/job-stats';
+import { JobPostingForm } from './components/job-posting-form/job-posting-form';
+import { Job } from '../utils/ts-utils';
+import { JobService } from './services/job.service';
+import { CompanyService } from './services/company.service';
+import { AsyncPipe } from '@angular/common';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [CompanyCard, JobList, JobSearchInput, JobStats, JobPostingForm, AsyncPipe],
+  imports: [CompanyCard, JobList, JobSearchInput, JobStats, JobPostingForm, AsyncPipe, RouterOutlet, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -31,7 +32,7 @@ export class App implements OnInit {
 
   jobResultString = computed(() => {
     const jobCount = this.filteredJobs().length;
-    return `${jobCount} Job${jobCount > 1 ? 's' : ''}`
+    return `${ jobCount } Job${ jobCount > 1 ? 's' : '' }`
   })
 
   onSearch(searchString: string) {

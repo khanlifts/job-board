@@ -1,7 +1,7 @@
-import {inject, Injectable, signal} from '@angular/core';
-import {Industry, Job} from '../../utils/ts-utils';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {catchError, debounceTime, EMPTY, finalize, map, of, shareReplay, Subject, switchMap, tap} from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { Industry, Job } from '../../utils/ts-utils';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, debounceTime, EMPTY, finalize, map, of, shareReplay, Subject, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -49,20 +49,20 @@ export class JobService {
   }
 
   loadJobs() {
-   this.loadingSignal.set(true);
-   this.errorSignal.set(null);
+    this.loadingSignal.set(true);
+    this.errorSignal.set(null);
 
-   this.http.get<Job[]>('http://localhost:3000/jobs')
-     .pipe(
-       tap((jobs: Job[]) => this.jobsSignal.set(jobs)),
-       catchError((err: HttpErrorResponse) => {
-           this.errorSignal.set(`Error fetching jobs. Status: ${err.status} Error: ${err.message}`);
-           return of([]);
-         }
-       ),
-       finalize(() => this.loadingSignal.set(false))
-     )
-     .subscribe();
+    this.http.get<Job[]>('http://localhost:3000/jobs')
+      .pipe(
+        tap((jobs: Job[]) => this.jobsSignal.set(jobs)),
+        catchError((err: HttpErrorResponse) => {
+            this.errorSignal.set(`Error fetching jobs. Status: ${ err.status } Error: ${ err.message }`);
+            return of([]);
+          }
+        ),
+        finalize(() => this.loadingSignal.set(false))
+      )
+      .subscribe();
   }
 
   addJobToServer(job: Job) {
@@ -73,7 +73,7 @@ export class JobService {
       .pipe(
         tap((newJob: Job) => this.addJob(newJob)),
         catchError((err: HttpErrorResponse) => {
-          this.errorSignal.set(`Error posting job. Status: ${err.status} Error: ${err.message}`);
+          this.errorSignal.set(`Error posting job. Status: ${ err.status } Error: ${ err.message }`);
           return of(null);
         }),
         finalize(() => this.creatingJobSignal.set(false))
@@ -85,11 +85,11 @@ export class JobService {
     this.errorSignal.set(null);
     this.deletingSignal.set(true);
 
-    this.http.delete<void>(`http://localhost:3000/jobs/${id}`)
+    this.http.delete<void>(`http://localhost:3000/jobs/${ id }`)
       .pipe(
         tap(() => this.removeJob(id)),
         catchError((err: HttpErrorResponse) => {
-          this.errorSignal.set(`Error deleting job. Status: ${err.status} Error: ${err.message}`);
+          this.errorSignal.set(`Error deleting job. Status: ${ err.status } Error: ${ err.message }`);
           return EMPTY;
         }),
         finalize(() => this.deletingSignal.set(false))

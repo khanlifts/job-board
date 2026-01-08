@@ -1,6 +1,6 @@
-import {Component, input, InputSignal, output} from '@angular/core';
-import {JobCard} from '../job-card/job-card';
-import {Job} from '../../../utils/ts-utils';
+import { Component, input, InputSignal, output } from '@angular/core';
+import { JobCard } from '../job-card/job-card';
+import { Job } from '../../../utils/ts-utils';
 
 @Component({
   selector: 'job-list',

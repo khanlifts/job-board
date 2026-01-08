@@ -1,5 +1,5 @@
-import {Component, output, input} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { Component, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'job-search-input',

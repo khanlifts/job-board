@@ -1,7 +1,7 @@
-import {inject, Injectable, signal} from '@angular/core';
-import {Company} from '../../utils/ts-utils';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {catchError, finalize, of, tap} from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { Company } from '../../utils/ts-utils';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, finalize, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,7 @@ export class CompanyService {
       .pipe(
         tap((companies: Company[]) => this.companiesSignal.set(companies)),
         catchError((err: HttpErrorResponse) => {
-          this.errorSignal.set(`Error fetching companies. Status: ${err.status} Error: ${err.message}`);
+          this.errorSignal.set(`Error fetching companies. Status: ${ err.status } Error: ${ err.message }`);
           return of([]);
         }),
         finalize(() => this.loadingSignal.set(false))
@@ -39,9 +39,9 @@ export class CompanyService {
 
   private defaultCompanies(): Company[] {
     return [
-      {companyName: 'Rocken', industry: 'HR', employeeCount: 200},
-      {companyName: 'FinFox', industry: 'Finance', employeeCount: 999},
-      {companyName: 'Apple', industry: 'Consumer Electronics', employeeCount: 4876}
+      { companyName: 'Rocken', industry: 'HR', employeeCount: 200 },
+      { companyName: 'FinFox', industry: 'Finance', employeeCount: 999 },
+      { companyName: 'Apple', industry: 'Consumer Electronics', employeeCount: 4876 }
     ]
   }
 }

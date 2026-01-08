@@ -1,10 +1,10 @@
-import {Component, input, output} from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'job-card',
   standalone: true,
-  imports: [ CommonModule ],
+  imports: [CommonModule],
   templateUrl: './job-card.html',
   styleUrl: './job-card.scss'
 })

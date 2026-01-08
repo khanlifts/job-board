@@ -1,5 +1,5 @@
-import {Component, output, signal} from '@angular/core';
-import {Industry} from '../../../utils/ts-utils';
+import { Component, output, signal } from '@angular/core';
+import { Industry } from '../../../utils/ts-utils';
 
 @Component({
   selector: 'job-filter-form',

@@ -5,10 +5,10 @@
     <div>
       <label [for]="industry">
         <input type="checkbox"
-           [name]="industry"
-           [id]="industry"
-           [checked]="selectedIndustries().has(industry)"
-           (change)="toggleIndustry(industry)"
+               [name]="industry"
+               [id]="industry"
+               [checked]="selectedIndustries().has(industry)"
+               (change)="toggleIndustry(industry)"
         >
         {{ industry }}
       </label>

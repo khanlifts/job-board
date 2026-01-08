@@ -1,7 +1,7 @@
-import {Component, output} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {JsonPipe} from '@angular/common';
-import {Industry, Job} from '../../../utils/ts-utils';
+import { Component, output } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { JsonPipe } from '@angular/common';
+import { Industry, Job } from '../../../utils/ts-utils';
 
 @Component({
   selector: 'app-job-posting-form',
