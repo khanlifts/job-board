@@ -23,6 +23,14 @@
       "industry": "MEDICINE",
       "description": "Greenfield Frontend Dev on V-Zug",
       "salary": 130000
+    },
+    {
+      "id": "77a7",
+      "title": "New Senior Dev",
+      "company": "AWS",
+      "industry": "Health Tech",
+      "salary": 110000,
+      "description": "Very interesting job."
     }
   ],
   "companies": [

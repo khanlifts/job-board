@@ -5,10 +5,11 @@ import { CompaniesPageComponent } from './components/companies-page/companies-pa
 import { NotFoundComponent } from './components/not-found/not-found';
 import { authGuard } from './guards/auth.guard';
 import { JobsPageComponent } from './components/jobs-page/jobs-page';
+import { unsavedChangesGuard } from './guards/unsaved-changes.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/jobs', pathMatch: 'full' },
-  { path: 'jobs/create', component: JobCreateComponent, canActivate: [authGuard] },
+  { path: 'jobs/create', component: JobCreateComponent, canActivate: [authGuard], canDeactivate: [unsavedChangesGuard] },
   { path: 'jobs/:id', component: JobDetailComponent },
   { path: 'jobs', component: JobsPageComponent },
   { path: 'companies', component: CompaniesPageComponent },

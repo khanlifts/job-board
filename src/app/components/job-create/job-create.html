@@ -1,1 +1,82 @@
-<p>Job Create works</p>
+<div class="job-create-container">
+  <h2>Create a New Job</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Job Title:</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        placeholder="e.g. Senior Angular Developer"
+        required
+      />
+      @if (form.get('title') && form.get('title')!.hasError('required') && form.get('title')!.touched) {
+        <p class="error">Job Title is required</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="company">Company:</label>
+      <input
+        type="text"
+        id="company"
+        formControlName="company"
+        placeholder="e.g. Google"
+        required
+      />
+      @if (form.get('company') && form.get('company')!.hasError('required') && form.get('company')!.touched) {
+        <p class="error">Company is required</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="industry">Industry:</label>
+      <input
+        type="text"
+        id="industry"
+        formControlName="industry"
+        placeholder="e.g. Tech"
+        required
+      />
+      @if (form.get('industry') && form.get('industry')!.hasError('required') && form.get('industry')!.touched) {
+        <p class="error">Industry is required</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="salary">Salary:</label>
+      <input
+        type="number"
+        id="salary"
+        formControlName="salary"
+        placeholder="e.g. 120000"
+        required
+      />
+      @if (form.get('salary') && form.get('salary')!.hasError('required') && form.get('salary')!.touched) {
+        <p class="error">Salary is required</p>
+      }
+      @if (form.get('salary') && form.get('salary')!.hasError('min') && form.get('salary')!.touched) {
+        <p class="error">Salary must be greater than 0</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        placeholder="Job description..."
+        rows="5"
+        required
+      ></textarea>
+      @if (form.get('description') && form.get('description')!.hasError('required') && form.get('description')!.touched) {
+        <p class="error">Description is required</p>
+      }
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">Create Job</button>
+  </form>
+
+  <p class="hint">💡 Make unsaved changes to test the "unsaved changes" guard!</p>
+</div>
