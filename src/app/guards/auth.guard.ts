@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 
 let isAuthenticated = false;
 
-export function setAuthentitaced(value: boolean) {
+export function setAuthenticated(value: boolean) {
   isAuthenticated = value;
 }
 

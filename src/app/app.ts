@@ -1,64 +1,19 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { CompanyCard } from './components/company-card/company-card';
-import { JobList } from './components/job-list/job-list';
-import { JobSearchInput } from './components/job-search-input/job-search-input';
-import { JobStats } from './components/job-stats/job-stats';
-import { JobPostingForm } from './components/job-posting-form/job-posting-form';
-import { Job } from '../utils/ts-utils';
-import { JobService } from './services/job.service';
-import { CompanyService } from './services/company.service';
-import { AsyncPipe } from '@angular/common';
+import { Component, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { setAuthenticated } from './guards/auth.guard';
 
 @Component({
   selector: 'app-root',
-  imports: [CompanyCard, JobList, JobSearchInput, JobStats, JobPostingForm, AsyncPipe, RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements OnInit {
-  jobService: JobService = inject(JobService);
-  companyService: CompanyService = inject(CompanyService);
+export class App {
   protected readonly appTitle = signal('Job Board');
+  isLoggedIn = signal(false);
 
-  ngOnInit() {
-    this.jobService.loadJobs();
-    this.companyService.loadCompanies();
+  toggleAuth() {
+    this.isLoggedIn.update(val => !val);
+    setAuthenticated(this.isLoggedIn());
   }
-
-  searchTerm = signal<string>('');
-
-  selectedIndustry = signal('all');
-
-  jobResultString = computed(() => {
-    const jobCount = this.filteredJobs().length;
-    return `${ jobCount } Job${ jobCount > 1 ? 's' : '' }`
-  })
-
-  onSearch(searchString: string) {
-    this.searchTerm.set(searchString);
-    this.jobService.searchJobs(searchString);
-  }
-
-  onJobSubmitted(job: Job) {
-    this.jobService.addJobToServer(job);
-  }
-
-  onJobDeleted(id: string) {
-    this.jobService.deleteJob(id);
-  }
-
-  filteredJobs = computed(() => {
-    return this.jobService.getFilteredJobs(this.searchTerm())
-  })
-
-  foundJobsString = computed(() => {
-    return this.jobResultString() + ' found';
-  })
-
-  statsFoundJobsString = computed(() => {
-    return this.jobResultString() + ' in your search';
-  })
-
-  companiesSignal = this.companyService.companies;
 }
