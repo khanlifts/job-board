@@ -1,3 +1,6 @@
-.job-list {
-
+.job-list-header {
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+  }
 }

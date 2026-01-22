@@ -1,4 +1,15 @@
-<h3 class="job-list">Jobs:</h3>
+<div class="job-list-header">
+  <h3>All Jobs</h3>
+  <div class="job-list-header__buttons">
+    <a routerLink="/jobs" [queryParams]="{ sort: 'title' }">
+      {{ sortBy() === 'title' ? '✓' : '' }} Sort by Title
+    </a>
+    <a routerLink="/salary" [queryParams]="{ sort: 'salary' }">
+      {{ sortBy() === 'salary' ? '✓' : '' }} Sort by Salary
+    </a>
+  </div>
+</div>
+
 
 @for (job of jobs(); track job.id) {
   <job-card

@@ -1,7 +1,19 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { Industry, Job } from '../../utils/ts-utils';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, debounceTime, EMPTY, finalize, map, of, shareReplay, Subject, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  EMPTY,
+  finalize,
+  map,
+  of,
+  shareReplay,
+  Subject,
+  switchMap,
+  tap
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +43,7 @@ export class JobService {
   $searchResult = this.searchTermSubject.asObservable()
     .pipe(
       debounceTime(300),
+      distinctUntilChanged(),
       switchMap(
         (searchTerm: string) => {
           return this.http.get<Job[]>(`http://localhost:3000/jobs`).pipe(
