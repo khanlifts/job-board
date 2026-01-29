@@ -33,6 +33,8 @@ export class JobService {
   private errorSignal = signal<null | string>(null);
   private deletingSignal = signal<boolean>(false);
 
+  private errorType = signal<'network' | 'validation' | 'server' | null>(null)
+
   readonly loading = this.loadingSignal.asReadonly();
   readonly error = this.errorSignal.asReadonly();
   readonly deleting = this.deletingSignal.asReadonly();
@@ -69,6 +71,13 @@ export class JobService {
       .pipe(
         tap((jobs: Job[]) => this.jobsSignal.set(jobs)),
         catchError((err: HttpErrorResponse) => {
+          if (err.status === 0) {
+            this.errorType.set('network');
+          } else if (err.status === 400) {
+            this.errorType.set('validation');
+          } else if (err.status >= 500) {
+            this.errorType.set('server');
+          }
             this.errorSignal.set(`Error fetching jobs. Status: ${ err.status } Error: ${ err.message }`);
             return of([]);
           }
@@ -87,7 +96,7 @@ export class JobService {
         tap((newJob: Job) => this.addJob(newJob)),
         catchError((err: HttpErrorResponse) => {
           this.errorSignal.set(`Error posting job. Status: ${ err.status } Error: ${ err.message }`);
-          return of(null);
+          return EMPTY;
         }),
         finalize(() => this.creatingJobSignal.set(false))
       )
@@ -110,10 +119,19 @@ export class JobService {
       .subscribe();
   }
 
+  private static readonly DEFAULT_JOB_IDS = {
+    job1: 'senior-angular-dev-001',
+    job2: 'backend-engineer-002',
+    job3: 'healthcare-it-003',
+    job4: 'hr-manager-004',
+    job5: 'financial-analyst-005'
+  };
+
+
   private defaultJobs(): Job[] {
     return [
       {
-        id: crypto.randomUUID(),
+        id: JobService.DEFAULT_JOB_IDS.job1,
         title: 'Senior Angular Developer',
         company: 'Google',
         industry: Industry.Technology,
@@ -121,7 +139,7 @@ export class JobService {
         salary: 150000
       },
       {
-        id: crypto.randomUUID(),
+        id: JobService.DEFAULT_JOB_IDS.job2,
         title: 'Backend Engineer',
         company: 'Microsoft',
         industry: Industry.Technology,
@@ -129,7 +147,7 @@ export class JobService {
         salary: 140000
       },
       {
-        id: crypto.randomUUID(),
+        id: JobService.DEFAULT_JOB_IDS.job3,
         title: 'Healthcare IT Specialist',
         company: 'CVS Health',
         industry: Industry.Medicine,
@@ -137,7 +155,7 @@ export class JobService {
         salary: 90000
       },
       {
-        id: crypto.randomUUID(),
+        id: JobService.DEFAULT_JOB_IDS.job4,
         title: 'HR Manager',
         company: 'Adobe',
         industry: Industry.HR,
@@ -145,7 +163,7 @@ export class JobService {
         salary: 120000
       },
       {
-        id: crypto.randomUUID(),
+        id: JobService.DEFAULT_JOB_IDS.job5,
         title: 'Financial Analyst',
         company: 'Goldman Sachs',
         industry: Industry.Finance,

@@ -31,6 +31,22 @@
       "industry": "Health Tech",
       "salary": 110000,
       "description": "Very interesting job."
+    },
+    {
+      "id": "6827",
+      "title": "Senior AWS Dev",
+      "company": "AWS",
+      "industry": "Tech",
+      "salary": 200000,
+      "description": "Description"
+    },
+    {
+      "id": "1eb8",
+      "title": "Senior Web Dev",
+      "company": "Arc ",
+      "industry": "Tech",
+      "salary": 50000,
+      "description": "Job Description"
     }
   ],
   "companies": [
