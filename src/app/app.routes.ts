@@ -14,7 +14,8 @@ export const routes: Routes = [
   {
     path: 'companies',
     loadComponent: () => import('./components/companies-page/companies-page')
-      .then(m => m.CompaniesPageComponent)
+      .then(m => m.CompaniesPageComponent),
+    data: { preload: true }
   },
   {
     path: 'error/:code',
