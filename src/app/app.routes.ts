@@ -6,6 +6,7 @@ import { NotFoundComponent } from './components/not-found/not-found';
 import { authGuard } from './guards/auth.guard';
 import { JobsPageComponent } from './components/jobs-page/jobs-page';
 import { unsavedChangesGuard } from './guards/unsaved-changes.guard';
+import { ErrorPageComponent } from './components/error-page/error-page';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/jobs', pathMatch: 'full' },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'jobs/:id', component: JobDetailComponent },
   { path: 'jobs', component: JobsPageComponent },
   { path: 'companies', component: CompaniesPageComponent },
+  { path: 'error/:code', component: ErrorPageComponent },
   { path: '**', component: NotFoundComponent }
 ];

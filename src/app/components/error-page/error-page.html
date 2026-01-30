@@ -1,0 +1,12 @@
+<div class="error-page">
+  <div class="error-container">
+    <h1 class="error-code">{{ errorCode() }}</h1>
+    <h2 class="error-title">{{ errorTitle() }}</h2>
+    <p class="error-message">{{ errorMessage() }}</p>
+
+    <div class="error-actions">
+      <button (click)="goBack()">← Go Back</button>
+      <button (click)="goHome()">🏠 Back to Home</button>
+    </div>
+  </div>
+</div>
