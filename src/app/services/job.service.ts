@@ -14,6 +14,7 @@ import {
   switchMap,
   tap
 } from 'rxjs';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class JobService {
   constructor() {
     this.jobsSignal.set(this.defaultJobs());
   }
-
+  private toastService = inject(ToastService);
   private jobsSignal = signal<Job[]>([])
   readonly jobs = this.jobsSignal.asReadonly();
 
@@ -93,9 +94,13 @@ export class JobService {
 
     this.http.post<Job>('http://localhost:3000/jobs', job)
       .pipe(
-        tap((newJob: Job) => this.addJob(newJob)),
+        tap((newJob: Job) => {
+          this.addJob(newJob);
+          this.toastService.success('Job successfully created!', 4000);
+        }),
         catchError((err: HttpErrorResponse) => {
           this.errorSignal.set(`Error posting job. Status: ${ err.status } Error: ${ err.message }`);
+          this.toastService.error('Failed to create job!');
           return EMPTY;
         }),
         finalize(() => this.creatingJobSignal.set(false))
@@ -109,9 +114,13 @@ export class JobService {
 
     this.http.delete<void>(`http://localhost:3000/jobs/${ id }`)
       .pipe(
-        tap(() => this.removeJob(id)),
+        tap(() => {
+          this.removeJob(id);
+          this.toastService.success('Successfully deleted job!');
+        }),
         catchError((err: HttpErrorResponse) => {
           this.errorSignal.set(`Error deleting job. Status: ${ err.status } Error: ${ err.message }`);
+          this.toastService.error('Failed to delete job!');
           return EMPTY;
         }),
         finalize(() => this.deletingSignal.set(false))

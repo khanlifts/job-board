@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { setAuthenticated } from './guards/auth.guard';
+import { ToastContainer } from './components/toast-container/toast-container';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, ToastContainer],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
