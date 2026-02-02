@@ -1,5 +1,6 @@
-import { Component, DOCUMENT, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, DOCUMENT, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
@@ -11,12 +12,15 @@ export class ErrorPageComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private document = inject(DOCUMENT);
+  private destroyRef = inject(DestroyRef);
 
   errorCode = signal<number>(404);
   errorMessage = signal<string>('Page not found. The resource you are looking for does not exist.');
 
   ngOnInit() {
-    this.route.paramMap.subscribe(paramMap => {
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(paramMap => {
       const code = parseInt(paramMap.get('code') ?? '500', 10);
       this.errorCode.set(code);
     })

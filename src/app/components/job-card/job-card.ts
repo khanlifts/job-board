@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -7,7 +7,8 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './job-card.html',
-  styleUrl: './job-card.scss'
+  styleUrl: './job-card.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JobCard {
 
