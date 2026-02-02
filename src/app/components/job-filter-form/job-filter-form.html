@@ -1,7 +1,7 @@
 <h1 class="job-filter-form">Nach Branchen filtern</h1>
 
 <div class="job-filter-form__container">
-  @for (industry of industries; track $index) {
+  @for (industry of industries; track industry) {
     <div>
       <label [for]="industry">
         <input type="checkbox"

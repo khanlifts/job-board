@@ -67,7 +67,7 @@
 }
 
 @if (!companyService.loading() && companyService.companies().length > 0) {
-  @for (company of companiesSignal(); track $index) {
+  @for (company of companiesSignal(); track company.companyName) {
     <company-card
       [companyName]="company.companyName"
       [industry]="company.industry"
