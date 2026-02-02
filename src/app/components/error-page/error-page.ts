@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DOCUMENT, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -10,17 +10,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ErrorPageComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private document = inject(DOCUMENT);
 
   errorCode = signal<number>(404);
   errorMessage = signal<string>('Page not found. The resource you are looking for does not exist.');
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const code = parseInt(params['code'])
+    this.route.paramMap.subscribe(paramMap => {
+      const code = parseInt(paramMap.get('code') ?? '500', 10);
       this.errorCode.set(code);
     })
 
-    if (window.history.state?.['message']) {
+    const window = this.document.defaultView;
+    if (window && window.history.state?.['message']) {
       this.errorMessage.set(window.history.state['message']);
     }
   }

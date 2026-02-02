@@ -198,4 +198,12 @@ export class JobService {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return this.jobs().filter(job => job.title.toLowerCase().includes(lowerCaseSearchTerm));
   }
+
+  getJobById(id: string) {
+    return this.http.get<Job>(`http://localhost:3000/jobs/${id}`).pipe(
+      catchError((err: HttpErrorResponse) => {
+        throw new Error(`Job with ID ${id} not found. Status: ${err.status}`);
+      })
+    );
+  }
 }

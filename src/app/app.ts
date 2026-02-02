@@ -1,7 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { setAuthenticated } from './guards/auth.guard';
 import { ToastContainer } from './components/toast-container/toast-container';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +10,12 @@ import { ToastContainer } from './components/toast-container/toast-container';
   styleUrl: './app.scss'
 })
 export class App {
+  private authService = inject(AuthService);
   protected readonly appTitle = signal('Job Board');
   isLoggedIn = signal(false);
 
   toggleAuth() {
     this.isLoggedIn.update(val => !val);
-    setAuthenticated(this.isLoggedIn());
+    this.authService.setAuthenticated(this.isLoggedIn());
   }
 }

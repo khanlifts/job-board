@@ -23,8 +23,8 @@ export class JobList implements OnInit {
   sortBy = signal<'salary' | 'title'>('title')
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      const sort = params['sort'];
+    this.route.queryParamMap.subscribe(queryParamMap => {
+      const sort = queryParamMap.get('sort');
       if (sort === 'title' || sort === 'salary') {
         this.sortBy.set(sort);
       }

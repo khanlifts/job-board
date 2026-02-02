@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PreloadingStrategy, Route } from '@angular/router';
-import { mergeMap, Observable, of, timer } from 'rxjs';
+import { mergeMap, Observable, of, shareReplay, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,8 @@ export class CustomPreloadingStrategy implements PreloadingStrategy {
       console.log(`Preloading ${route.path}`);
 
       return timer(2000).pipe(
-        mergeMap(() => load())
+        mergeMap(() => load()),
+        shareReplay(1)
       )
     }
 
