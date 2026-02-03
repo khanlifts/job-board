@@ -15,6 +15,7 @@ import {
   tap
 } from 'rxjs';
 import { ToastService } from './toast.service';
+import { API_ENDPOINTS } from '../core/api.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,7 @@ export class JobService {
       distinctUntilChanged(),
       switchMap(
         (searchTerm: string) => {
-          return this.http.get<Job[]>(`http://localhost:3000/jobs`).pipe(
+          return this.http.get<Job[]>(API_ENDPOINTS.JOBS).pipe(
             map((jobs: Job[]) => {
               const lowerCaseSearchTerm = searchTerm.toLowerCase();
               return jobs.filter(job => job.title.toLowerCase().includes(lowerCaseSearchTerm));
@@ -68,7 +69,7 @@ export class JobService {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    this.http.get<Job[]>('http://localhost:3000/jobs')
+    this.http.get<Job[]>(API_ENDPOINTS.JOBS)
       .pipe(
         tap((jobs: Job[]) => this.jobsSignal.set(jobs)),
         catchError((err: HttpErrorResponse) => {
@@ -92,7 +93,7 @@ export class JobService {
     this.creatingJobSignal.set(true);
     this.errorSignal.set(null);
 
-    this.http.post<Job>('http://localhost:3000/jobs', job)
+    this.http.post<Job>(API_ENDPOINTS.JOBS, job)
       .pipe(
         tap((newJob: Job) => {
           this.addJob(newJob);
@@ -112,7 +113,7 @@ export class JobService {
     this.errorSignal.set(null);
     this.deletingSignal.set(true);
 
-    this.http.delete<void>(`http://localhost:3000/jobs/${ id }`)
+    this.http.delete<void>(`${API_ENDPOINTS.JOBS}/${ id }`)
       .pipe(
         tap(() => {
           this.removeJob(id);
@@ -200,7 +201,7 @@ export class JobService {
   }
 
   getJobById(id: string) {
-    return this.http.get<Job>(`http://localhost:3000/jobs/${id}`).pipe(
+    return this.http.get<Job>(`${API_ENDPOINTS.JOBS}/${id}`).pipe(
       catchError((err: HttpErrorResponse) => {
         throw new Error(`Job with ID ${id} not found. Status: ${err.status}`);
       })

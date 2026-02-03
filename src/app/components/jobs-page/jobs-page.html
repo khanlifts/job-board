@@ -41,12 +41,6 @@
   }
 }
 
-<app-job-posting-form (jobSubmitted)="onJobSubmitted($event)"></app-job-posting-form>
-
-@if (jobService.creatingJobs()) {
-  <p>Creating Job...</p>
-}
-
 <job-stats
   [selectedIndustry]="selectedIndustry()"
   [statsFoundJobString]="statsFoundJobsString()"

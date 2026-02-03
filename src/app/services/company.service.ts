@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Company } from '../../utils/ts-utils';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, finalize, of, tap } from 'rxjs';
+import { API_ENDPOINTS } from '../core/api.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class CompanyService {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
 
-    this.http.get<Company[]>('http://localhost:3000/companies')
+    this.http.get<Company[]>(API_ENDPOINTS.COMPANIES)
       .pipe(
         tap((companies: Company[]) => this.companiesSignal.set(companies)),
         catchError((err: HttpErrorResponse) => {

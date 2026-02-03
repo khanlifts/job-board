@@ -1,29 +1,54 @@
-import { ErrorHandler, inject, Injectable } from '@angular/core';
+import { ErrorHandler, Injectable, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
+import { inject } from '@angular/core';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   private router = inject(Router);
 
   handleError(error: Error | any): void {
-    console.error('Global Error Handler', error);
+    this.logErrorIfDev(error);
 
     if (error instanceof TypeError) {
-      console.error('TypeError', error);
-      this.logError('TypeError', error);
+      this.handleTypeError(error);
     } else if (error instanceof ReferenceError) {
-      console.error('ReferenceError', error);
-      this.logError('ReferenceError', error);
+      this.handleReferenceError(error);
     } else {
-     console.error('Unknown error:', error);
-     this.logError('Unknown Error', error);
+      this.handleUnknownError(error);
     }
 
     if (this.isCriticalError(error)) {
       this.router.navigate(['/error', 500], {
         state: { message: 'An unexpected error occured. Please try again later.' }
-      })
+      });
     }
+  }
+
+  private logErrorIfDev(error: Error): void {
+    if (isDevMode()) {
+      console.error('Global Error Handler', error);
+    }
+  }
+
+  private handleTypeError(error: TypeError): void {
+    if (isDevMode()) {
+      console.error('TypeError', error);
+    }
+    this.logError('TypeError', error);
+  }
+
+  private handleReferenceError(error: ReferenceError): void {
+    if (isDevMode()) {
+      console.error('ReferenceError', error);
+    }
+    this.logError('ReferenceError', error);
+  }
+
+  private handleUnknownError(error: Error): void {
+    if (isDevMode()) {
+      console.error('Unknown error:', error);
+    }
+    this.logError('Unknown Error', error);
   }
 
   private isCriticalError(error: Error): boolean {
@@ -32,7 +57,7 @@ export class GlobalErrorHandler implements ErrorHandler {
   }
 
   private logError(errorType: string, error: Error): void {
-    console.log(`[${ errorType }] ${ error.message }`);
-    console.log(`Stack: ${ error.stack }`);
+    console.log(`[${errorType}] ${error.message}`);
+    console.log(`Stack: ${error.stack}`);
   }
 }
