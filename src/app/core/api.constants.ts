@@ -1,4 +1,6 @@
+import { environment } from '../../environments/environment';
+
 export const API_ENDPOINTS = {
-  JOBS: 'http://localhost:3000/jobs',
-  COMPANIES: 'http://localhost:3000/companies'
+  JOBS: `${environment.apiUrl}/jobs`,
+  COMPANIES: `${environment.apiUrl}/companies`
 } as const;

@@ -5,17 +5,20 @@ import { inject } from '@angular/core';
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   private router = inject(Router);
+  private isDev = isDevMode();
 
   handleError(error: Error | any): void {
-    this.logErrorIfDev(error);
+    this.logErrorToConsole('Global Error Handler', error);
 
     if (error instanceof TypeError) {
-      this.handleTypeError(error);
+      this.logErrorToConsole('TypeError', error);
     } else if (error instanceof ReferenceError) {
-      this.handleReferenceError(error);
+      this.logErrorToConsole('ReferenceError', error);
     } else {
-      this.handleUnknownError(error);
+      this.logErrorToConsole('Unknown error', error);
     }
+
+    this.logToServer(error);
 
     if (this.isCriticalError(error)) {
       this.router.navigate(['/error', 500], {
@@ -24,40 +27,19 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
   }
 
-  private logErrorIfDev(error: Error): void {
-    if (isDevMode()) {
-      console.error('Global Error Handler', error);
+  private logErrorToConsole(type: string, error: Error): void {
+    if (this.isDev) {
+      console.error(`[${type}]`, error);
     }
   }
 
-  private handleTypeError(error: TypeError): void {
-    if (isDevMode()) {
-      console.error('TypeError', error);
-    }
-    this.logError('TypeError', error);
-  }
-
-  private handleReferenceError(error: ReferenceError): void {
-    if (isDevMode()) {
-      console.error('ReferenceError', error);
-    }
-    this.logError('ReferenceError', error);
-  }
-
-  private handleUnknownError(error: Error): void {
-    if (isDevMode()) {
-      console.error('Unknown error:', error);
-    }
-    this.logError('Unknown Error', error);
+  private logToServer(error: Error): void {
+    console.log(`[Error] ${error.message}`);
+    console.log(`Stack: ${error.stack}`);
   }
 
   private isCriticalError(error: Error): boolean {
     const criticalErrors = ['NullPointerException', 'OutOfMemory'];
     return criticalErrors.some(criticalError => error.message.includes(criticalError));
-  }
-
-  private logError(errorType: string, error: Error): void {
-    console.log(`[${errorType}] ${error.message}`);
-    console.log(`Stack: ${error.stack}`);
   }
 }
